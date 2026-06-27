@@ -37,8 +37,20 @@ public class GroundStorageTransitionHandling
         if (instance.StorageProps.Layout is not
             (EnumGroundStorageLayout.Messy12 or EnumGroundStorageLayout.Stacking or EnumGroundStorageLayout.SingleCenter)) return;
 
+        var oldStorageProps = instance.StorageProps;
+        var oldForceStorageProps = instance.forceStorageProps;
+        
         SetStorageProps(instance, null);
+        instance.forceStorageProps = false; // Can be set to true by some things, e.g. a finished clayform, causing the following to be null
         instance.DetermineStorageProperties(null);
+
+        if (instance.StorageProps is null)
+        {
+            SetStorageProps(instance, oldStorageProps);
+            instance.forceStorageProps = oldForceStorageProps;
+            return;
+        }
+        
         instance.forceStorageProps = true;
         instance.MarkDirty(true);
     }
