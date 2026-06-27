@@ -1,0 +1,11 @@
+{
+    "type": "code",
+    "side": "universal",
+    "requiredOnClient": true,
+    "requiredOnServer": true,
+    "modid": "madfoundation",
+    "name": "Mad Foundation",
+    "description": "Enhancements and bug fixes for vanilla useful for modding.",
+    "authors": [ "MadSeraph" ],
+    "version": "1.0.0"
+}
