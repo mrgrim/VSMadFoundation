@@ -23,6 +23,7 @@ namespace MadFoundation;
 public class GroundStorageMultipleInteractions
 {
     private static readonly ConditionalWeakTable<BlockEntityGroundStorage, IContainedInteractable> activeInteractions = new();
+    private static bool complained = false;
     
     [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "isUsingSlot")]
     private static extern ref ItemSlot? isUsingSlot(BlockEntityGroundStorage _);
@@ -248,9 +249,13 @@ public class GroundStorageMultipleInteractions
         
         WorldInteraction[] ReturnEmptyAndComplain(IContainedInteractable interactable)
         {
+            if (complained) return [];
+            
             MadFoundationModSystem._api?.Logger.Warning($"[Mad Foundation] A contained interactable class ({interactable.GetType().FullName}) " +
                                                         $"returned null when calling \"GetContainedInteractableHelp\". This is a bug. Please " +
                                                         $"report this.");
+            complained = true;
+
             return [];
         }
     }
