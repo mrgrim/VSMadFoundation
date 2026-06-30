@@ -241,9 +241,18 @@ public class GroundStorageMultipleInteractions
         var collectibleInterfaces = GetCollectibleInterfaces<IContainedInteractable>(slotAt.Itemstack.Collectible);
         
         foreach (var interactable in collectibleInterfaces)
-            interactions.AddRange(interactable.GetContainedInteractionHelp(groundStorageBlock, slotAt, forPlayer, selection));
+            interactions.AddRange(interactable.GetContainedInteractionHelp(groundStorageBlock, slotAt, forPlayer, selection)
+                                  ?? ReturnEmptyAndComplain(interactable));
         
         return interactions.ToArray();
+        
+        WorldInteraction[] ReturnEmptyAndComplain(IContainedInteractable interactable)
+        {
+            MadFoundationModSystem._api?.Logger.Warning($"[Mad Foundation] A contained interactable class ({interactable.GetType().FullName}) " +
+                                                        $"returned null when calling \"GetContainedInteractableHelp\". This is a bug. Please " +
+                                                        $"report this.");
+            return [];
+        }
     }
     
     // We're replacing the call to the first IContainedInteractable.GetContainedInteractionHelp with a method to combine the results
