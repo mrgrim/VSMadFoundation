@@ -72,12 +72,12 @@ public class MadFoundationModSystem : ModSystem
             }
             catch (TargetInvocationException ex)
             {
-                _api?.Logger.Error($"[Mod] Runtime error applying patch {patch.type.Name}: {ex.InnerException?.Message}");
+                _api?.Logger.Error($"[Mad Foundation] Runtime error applying patch {patch.type.Name}: {ex.InnerException?.Message}");
                 _api?.Logger.Error(ex.InnerException?.StackTrace);
             }
             catch (Exception ex)
             {
-                _api?.Logger.Error($"[Mod] Reflection error loading patch {patch.type.Name}: {ex.Message}");
+                _api?.Logger.Error($"[Mad Foundation] Reflection error loading patch {patch.type.Name}: {ex.Message}");
             }
         }
     }
